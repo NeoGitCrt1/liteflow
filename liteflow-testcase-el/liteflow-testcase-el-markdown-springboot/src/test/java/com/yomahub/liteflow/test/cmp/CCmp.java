@@ -7,7 +7,6 @@
  */
 package com.yomahub.liteflow.test.cmp;
 
-import com.yomahub.liteflow.core.NodeComponent;
 import com.yomahub.liteflow.core.NodeSwitchComponent;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +15,7 @@ public class CCmp extends NodeSwitchComponent {
 
 	@Override
 	public String processSwitch() throws Exception {
+		System.out.println(this.getClass().getName() + " executed! > switch to:" + this.getRequestData());
 		return this.getRequestData();
 	}
 

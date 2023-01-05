@@ -123,17 +123,17 @@ public class FlowNodesParser implements Parser{
                 } else {
                     matchTarget = rawBlock.substring(i, i + 3);
                 }
-                if (matchTarget.equals(bracketL[j]) && bracketR[j].equals(rawBlock.substring(rawBlock.length() - matchTarget.length()))) {
+                int descEnd = rawBlock.length() - matchTarget.length();
+                if (matchTarget.equals(bracketL[j]) && bracketR[j].equals(rawBlock.substring(descEnd))) {
                     // found match
-                    int nodeIdEnd = i ;
-                    int descStart = i + matchTarget.length() ;
-                    int descEnd = rawBlock.length() - matchTarget.length();
+                    int nodeIdEnd = i;
+                    int descStart = i + matchTarget.length();
 
                     switch (matchTarget) {
                         case "{":
                             return new FlowChartNode(
                                     rawBlock.substring(0, nodeIdEnd),
-                                    descStart > 0? rawBlock.substring(descStart, descEnd): "",
+                                    descStart > 0 ? rawBlock.substring(descStart, descEnd) : "",
                                     NodeTypeEnum.SWITCH,
                                     tag);
                         case "((":
