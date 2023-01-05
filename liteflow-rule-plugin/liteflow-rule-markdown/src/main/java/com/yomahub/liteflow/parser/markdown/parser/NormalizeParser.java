@@ -23,6 +23,11 @@ public class NormalizeParser implements Parser{
             }
         }
 
+        if (start >= end) {
+            context.lines = new String[0];
+            return;
+        }
+
         context.lines = Arrays.copyOfRange(context.lines, start + 1, end);
     }
 }

@@ -34,8 +34,6 @@ public interface Parser {
 
         final NodeTypeEnum type;
 
-        FlowChartNode pre;
-
         final String tag;
 
         /**
@@ -71,7 +69,6 @@ public interface Parser {
                     ", tag='" + tag + '\'' +
                     ", desc='" + desc + '\'' +
                     ", type=" + type +
-                    ", pre=" + (pre == null? "<NONE>": pre.nid) +
                     ", next.size=" + next.size() +
                     '}';
         }

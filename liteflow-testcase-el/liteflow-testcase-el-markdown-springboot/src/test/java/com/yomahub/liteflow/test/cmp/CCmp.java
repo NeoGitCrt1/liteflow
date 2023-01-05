@@ -16,7 +16,7 @@ public class CCmp extends NodeSwitchComponent {
 
 	@Override
 	public String processSwitch() throws Exception {
-		return "D";
+		return this.getRequestData();
 	}
 
 }

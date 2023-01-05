@@ -4,9 +4,9 @@ title: 测试编排003
 ---
 flowchart TD;
 A --> B --> C{C:selelct}
-C --> |1| D
-C -->|2| E 
-C -->|3| F --> FB((FB Abend: NOT SUPPOSED TO BE IN THIS FLOW CHART)) 
+C --> |D| D
+C -->|D| E{{"E{{}}"}} --> EB(((EB Abend: NOT SUPPOSED TO BE IN THIS FLOW CHART))) 
+C -->|D| F --> FB((FB Abend: NOT SUPPOSED TO BE IN THIS FLOW CHART)) 
 
 
 ```

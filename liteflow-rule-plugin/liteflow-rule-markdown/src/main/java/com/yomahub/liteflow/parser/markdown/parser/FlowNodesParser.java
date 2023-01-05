@@ -43,7 +43,6 @@ public class FlowNodesParser implements Parser{
                             context.head = flowChartNode;
                         } else if (pre != null && pointing) {
                             pre.next.add(flowChartNode);
-                            flowChartNode.pre = pre;
                             pointing = false;
                         }
                         pre = flowChartNode;
@@ -84,6 +83,7 @@ public class FlowNodesParser implements Parser{
 
             final FlowChartNode flowChartNodeTmp = cutBlock(current.substring(blockStart), tag);
             if (flowChartNodeTmp.nid.isEmpty()) {
+                pointing = false;
                 continue;
             }
             FlowChartNode flowChartNode = nodeCache.computeIfAbsent(flowChartNodeTmp.nid, (nid) -> flowChartNodeTmp);
@@ -92,7 +92,6 @@ public class FlowNodesParser implements Parser{
                 context.head = flowChartNode;
             } else if (pre != null && pointing) {
                 pre.next.add(flowChartNode);
-                flowChartNode.pre = pre;
                 pointing = false;
             }
             pre = flowChartNode;
@@ -138,6 +137,7 @@ public class FlowNodesParser implements Parser{
                                     NodeTypeEnum.SWITCH,
                                     tag);
                         case "((":
+                        case "(((":
                             // ignore abend node description
                             return new FlowChartNode("", "", NodeTypeEnum.COMMON, tag);
                         default:
