@@ -75,7 +75,7 @@ public class MarkdownWithLocalMDSpringbootTest extends BaseTest {
     @Test
     public void testForCase006_2() throws Exception {
         LiteflowResponse response = flowExecutor.execute2Resp("测试编排006", "F");
-        // 因为是ANY, F21--F22流程来不及执行就会被提前结束
+        // 因为是ANY, F21--F22流程来不及执行完就会被提前结束
         Assert.assertEquals("A==>B==>C==>F==>F11==>F21==>G", response.getExecuteStepStrWithoutTime());
     }
 
