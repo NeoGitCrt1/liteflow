@@ -14,6 +14,8 @@ public interface Parser {
 
         public String[] lines;
 
+        int chartStartPos;
+
         public final String rawText;
 
         public String chainId;

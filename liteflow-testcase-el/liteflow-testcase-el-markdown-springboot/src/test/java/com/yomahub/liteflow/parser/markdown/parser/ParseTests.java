@@ -35,28 +35,41 @@ public class ParseTests {
         String text = ResourceUtil.readUtf8Str("classpath://CASE2.md");
         Parser.ParseContext parseContext = new Parser.ParseContext(text);
 
-        parsers.forEach(p ->p.parse(parseContext));
+        parsers.forEach(p -> p.parse(parseContext));
 
-
-        Assert.assertTrue(">>>" + parseContext.head.nid, parseContext.head.nid.equals("A"));
-        Assert.assertTrue(">>>" + parseContext.head.next.size(), parseContext.head.next.size() == 1);
+        Assert.assertTrue("1>>>" + parseContext.chainId, parseContext.chainId.equals("CASE2"));
+        Assert.assertTrue("2>>>" + parseContext.head.nid, parseContext.head.nid.equals("A"));
+        Assert.assertTrue("3>>>" + parseContext.head.next.size(), parseContext.head.next.size() == 1);
 
         Parser.FlowChartNode b = parseContext.head.next.get(0);
-        Assert.assertTrue(">>>" + b, b.nid.equals("B"));
-
-        Parser.FlowChartNode c = b.next.get(0);
-        Parser.FlowChartNode e = c.next.get(1);
-        Assert.assertTrue(">>>" + e, e.next.get(0).nid .equals("B"));
+        Assert.assertTrue("4>>>" + b, b.nid.equals("B"));
 
         printGraph(parseContext.head, new HashSet<>());
     }
 
     @Test
-    public void testFlowNodesParser3() throws Exception{
+    public void testFlowNodesParser2_2() throws Exception {
+        String text = ResourceUtil.readUtf8Str("classpath://CASE2_2.md");
+        Parser.ParseContext parseContext = new Parser.ParseContext(text);
+
+        parsers.forEach(p -> p.parse(parseContext));
+
+        Assert.assertTrue("1>>>" + parseContext.chainId, parseContext.chainId.equals("CASE2"));
+        Assert.assertTrue("2>>>" + parseContext.head.nid, parseContext.head.nid.equals("A"));
+        Assert.assertTrue("3>>>" + parseContext.head.next.size(), parseContext.head.next.size() == 1);
+
+        Parser.FlowChartNode b = parseContext.head.next.get(0);
+        Assert.assertTrue("4>>>" + b, b.nid.equals("B"));
+
+        printGraph(parseContext.head, new HashSet<>());
+    }
+
+    @Test
+    public void testFlowNodesParser3() throws Exception {
         String text = ResourceUtil.readUtf8Str("classpath://CASE3.md");
         Parser.ParseContext parseContext = new Parser.ParseContext(text);
 
-        parsers.forEach(p ->p.parse(parseContext));
+        parsers.forEach(p -> p.parse(parseContext));
 
         Set<String> cache = new HashSet<>();
         printGraph(parseContext.head, cache);

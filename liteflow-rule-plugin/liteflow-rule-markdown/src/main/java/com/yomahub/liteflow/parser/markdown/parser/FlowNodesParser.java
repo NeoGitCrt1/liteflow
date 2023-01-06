@@ -17,7 +17,7 @@ public class FlowNodesParser implements Parser{
 
         FlowChartNode pre = null;
         boolean pointing = false;
-        for (int i = 4; i < context.lines.length ; i++) {
+        for (int i = context.chartStartPos; i < context.lines.length; i++) {
             String current = context.lines[i];
 
             int length = current.length();
