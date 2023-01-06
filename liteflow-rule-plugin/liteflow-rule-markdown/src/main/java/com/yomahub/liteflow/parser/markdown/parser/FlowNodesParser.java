@@ -129,23 +129,29 @@ public class FlowNodesParser implements Parser{
                     int nodeIdEnd = i;
                     int descStart = i + matchTarget.length();
 
+                    String desc = descStart > 0 ? rawBlock.substring(descStart, descEnd) : "";
+                    if (!desc.isEmpty() && desc.startsWith("\"") && desc.endsWith("\"")) {
+                        desc = desc.substring(1, desc.length() - 1);
+                    }
+                    String nid = rawBlock.substring(0, nodeIdEnd);
                     switch (matchTarget) {
                         case "{":
                             return new FlowChartNode(
-                                    rawBlock.substring(0, nodeIdEnd),
-                                    descStart > 0 ? rawBlock.substring(descStart, descEnd) : "",
+                                    nid,
+                                    desc,
                                     NodeTypeEnum.SWITCH,
                                     tag);
                         case "((":
                         case "(((":
                             // ignore abend node description
                             return new FlowChartNode("", "", NodeTypeEnum.COMMON, tag);
+                        case "[[":
                         default:
                             return new FlowChartNode(
-                                    rawBlock.substring(0, nodeIdEnd),
-                                    descStart > 0? rawBlock.substring(descStart, descEnd): "",
+                                    nid,
+                                    desc,
                                     NodeTypeEnum.COMMON,
-                                    tag);
+                                    tag).setAny("[[".equals(matchTarget));
                     }
 
 

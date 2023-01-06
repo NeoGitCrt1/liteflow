@@ -7,10 +7,21 @@
  */
 package com.yomahub.liteflow.test.cmp;
 
+import com.yomahub.liteflow.slot.DefaultContext;
 import org.springframework.stereotype.Component;
 
 @Component("G")
 public class GCmp extends AbstractTestCmp {
 
+    @Override
+    public boolean isAccess() {
 
+        DefaultContext context = this.getContextBean(DefaultContext.class);
+        if (context.hasData("GAccessed")) {
+            return false;
+        } else {
+            context.setData("GAccessed", Boolean.TRUE);
+            return true;
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package com.yomahub.liteflow.test;
 
 import com.yomahub.liteflow.core.FlowExecutor;
-import com.yomahub.liteflow.enums.FlowParserTypeEnum;
 import com.yomahub.liteflow.flow.FlowBus;
 import com.yomahub.liteflow.flow.LiteflowResponse;
 import org.junit.After;
@@ -10,16 +9,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 /**
  * springboot环境下的nacos配置源功能测试
@@ -53,10 +47,47 @@ public class MarkdownWithLocalMDSpringbootTest extends BaseTest {
         LiteflowResponse response = flowExecutor.execute2Resp("测试编排004", "D");
         Assert.assertEquals("A==>B==>C==>D==>E==>F", response.getExecuteStepStrWithoutTime());
     }
+
     @Test
     public void testForCase5() throws Exception {
         LiteflowResponse response = flowExecutor.execute2Resp("测试编排003", "E");
         Assert.assertEquals("A==>B==>C==>E", response.getExecuteStepStrWithoutTime());
+    }
+
+    @Test
+    public void testForCase6() throws Exception {
+        LiteflowResponse response = flowExecutor.execute2Resp("测试编排005", "D", com.yomahub.liteflow.slot.DefaultContext.class);
+        Assert.assertEquals("A==>B==>C==>D==>D1==>G==>D2==>H==>D3", response.getExecuteStepStrWithoutTime());
+    }
+
+    @Test
+    public void testForCase7() throws Exception {
+        LiteflowResponse response = flowExecutor.execute2Resp("测试编排005", "E");
+        Assert.assertEquals("A==>B==>C==>E==>I==>G", response.getExecuteStepStrWithoutTime());
+    }
+
+    @Test
+    public void testForCase006_1() throws Exception {
+        LiteflowResponse response = flowExecutor.execute2Resp("测试编排006", "E");
+        Assert.assertEquals("A==>B==>C==>E==>I==>G", response.getExecuteStepStrWithoutTime());
+    }
+
+    @Test
+    public void testForCase006_2() throws Exception {
+        LiteflowResponse response = flowExecutor.execute2Resp("测试编排006", "F");
+        // 因为是ANY, F21--F22流程来不及执行就会被提前结束
+        Assert.assertEquals("A==>B==>C==>F==>F11==>F21==>G", response.getExecuteStepStrWithoutTime());
+    }
+
+    @Test
+    public void testForCase006_3() throws Exception {
+        LiteflowResponse response = flowExecutor.execute2Resp("测试编排006", "D");
+        // G节点实现了Once语义。只跑一次
+        String actual = response.getExecuteStepStrWithoutTime();
+        Assert.assertTrue(">>>",
+                "A==>B==>C==>D==>D1==>D2==>D3==>H==>G".equals(actual)
+                        || "A==>B==>C==>D==>D1==>D3==>D2==>H==>G".equals(actual)
+        );
     }
 
 }

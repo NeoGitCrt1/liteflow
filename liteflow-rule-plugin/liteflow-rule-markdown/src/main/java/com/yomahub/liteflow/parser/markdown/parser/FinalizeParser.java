@@ -22,7 +22,7 @@ public class FinalizeParser implements Parser{
                 if (root.next.size() == 1) {
                     join(root.next.get(0), main);
                 } else {
-                    StringJoiner when = new StringJoiner(",", "WHEN(", ")");
+                    StringJoiner when = new StringJoiner(",", "WHEN(", ").any(" + String.valueOf(root.anyForParallel) + ")");
                     for (FlowChartNode n : root.next) {
                         StringJoiner subMain = new StringJoiner(",", "THEN(", ")");
                         join(n, subMain);

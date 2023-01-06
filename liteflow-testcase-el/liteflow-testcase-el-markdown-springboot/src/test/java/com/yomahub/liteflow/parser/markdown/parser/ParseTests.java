@@ -4,7 +4,6 @@ import cn.hutool.core.io.resource.ResourceUtil;
 import com.google.common.collect.ImmutableList;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.util.ResourceUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -94,4 +93,20 @@ public class ParseTests {
 
     }
 
+    @Test
+    public void testFlowNodesParser5() throws Exception {
+        String text = ResourceUtil.readUtf8Str("classpath://CASE6.md");
+        Parser.ParseContext parseContext = new Parser.ParseContext(text);
+
+        parsers.forEach(p -> p.parse(parseContext));
+
+        Set<String> cache = new HashSet<>();
+        printGraph(parseContext.head, cache);
+        System.out.println(parseContext.el);
+        Assert.assertTrue(">>>" + cache, !cache.contains("FB"));
+        Assert.assertTrue(">>>" + cache, !cache.contains("FA"));
+        Assert.assertTrue(">>>" + cache, !cache.contains("FABEND"));
+        Assert.assertTrue(">>>" + cache, parseContext.el.contains(".any(true)"));
+        Assert.assertTrue(">>>" + cache, parseContext.el.contains(".any(false)"));
+    }
 }

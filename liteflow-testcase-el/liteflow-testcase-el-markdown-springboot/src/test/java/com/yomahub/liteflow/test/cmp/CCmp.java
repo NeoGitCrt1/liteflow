@@ -8,14 +8,16 @@
 package com.yomahub.liteflow.test.cmp;
 
 import com.yomahub.liteflow.core.NodeSwitchComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component("C")
 public class CCmp extends NodeSwitchComponent {
-
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	@Override
 	public String processSwitch() throws Exception {
-		System.out.println(this.getClass().getName() + " executed! > switch to:" + this.getRequestData());
+		log.info(" executed! > switch to:" + this.getRequestData());
 		return this.getRequestData();
 	}
 

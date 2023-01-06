@@ -36,6 +36,8 @@ public interface Parser {
 
         final String tag;
 
+        boolean anyForParallel;
+
         /**
          * FlowChartNodeType.STEP when has only one next element, then use THEN(x,x,x) flow; or when multiple, use WHEN(x,x,x) flow
          * FlowChartNodeType.SWITCH has multiple next element
@@ -46,7 +48,12 @@ public interface Parser {
             this.nid = nid;
             this.desc = desc;
             this.type = type;
-            this.tag = tag == null? "" : tag;
+            this.tag = tag == null ? "" : tag;
+        }
+
+        FlowChartNode setAny(boolean any) {
+            anyForParallel = any;
+            return this;
         }
 
         @Override
