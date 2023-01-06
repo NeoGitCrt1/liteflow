@@ -1,3 +1,5 @@
+# DEMO编排样例
+
 ```mermaid
 flowchart TD;
 chainId>在首行的此图形可以作为chainId]
@@ -26,8 +28,7 @@ F --> F21 --> F22
 1. 使用 mermaid version 9.3.0+ 语法时可以在title指定chainId
 3. 一个.md文件一套流程
 4. 只解析文件里的第一个“```mermaid”块，后面的图只作为对第一个主流程的补充说明给用户自己参考用
-5. 详情参照头图《测试编排样例》
-
+5. 详情参照头图《DEMO编排样例》
 
 ## UPGRADE mermaid version in idea markdown plugin (Windows)
 
@@ -38,5 +39,5 @@ npm i mermaid
 2. find latest mermaid.js under .\node_modules\mermaid\dist
 
 3. replace mermaid.js in
-C:\Users\{your user name}\AppData\Local\JetBrains\IdeaIC2022.3\markdown\download\mermaidlanguageextension\mermaid
+   C:\Users\{your user name}\AppData\Local\JetBrains\IdeaIC2022.3\markdown\download\mermaidlanguageextension\mermaid
 
