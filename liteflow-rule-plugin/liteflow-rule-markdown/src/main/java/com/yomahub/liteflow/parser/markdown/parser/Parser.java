@@ -21,6 +21,7 @@ public interface Parser {
         public String chainId;
 
         FlowChartNode head;
+        FlowChartNode skipParallelJoinPoint = null;
 
         public String el;
 

@@ -18,6 +18,7 @@ public class ParseTests {
         Parser.ParseContext parseContext = new Parser.ParseContext(text);
 
         parsers.forEach(p ->p.parse(parseContext));
+        System.out.println(parseContext.el);
 
         Assert.assertTrue("1>>>" + parseContext.chainId, parseContext.chainId.equals("asd"));
 
@@ -27,7 +28,6 @@ public class ParseTests {
         Assert.assertTrue("5>>>" + parseContext.head.next.get(1), parseContext.head.next.get(1).nid .equals("E"));
         printGraph(parseContext.head, new HashSet<>());
 
-        System.out.println(parseContext.el);
     }
 
     @Test
@@ -36,7 +36,24 @@ public class ParseTests {
         Parser.ParseContext parseContext = new Parser.ParseContext(text);
 
         parsers.forEach(p -> p.parse(parseContext));
+        printGraph(parseContext.head, new HashSet<>());
+        System.out.println(parseContext.el);
+        Assert.assertTrue("1>>>" + parseContext.chainId, parseContext.chainId.equals("CASE2"));
+        Assert.assertTrue("2>>>" + parseContext.head.nid, parseContext.head.nid.equals("A"));
+        Assert.assertTrue("3>>>" + parseContext.head.next.size(), parseContext.head.next.size() == 1);
 
+        Parser.FlowChartNode b = parseContext.head.next.get(0);
+        Assert.assertTrue("4>>>" + b, b.nid.equals("B"));
+
+    }
+
+    @Test
+    public void testFlowNodesParser2_2() throws Exception {
+        String text = ResourceUtil.readUtf8Str("classpath://CASE2_2.md");
+        Parser.ParseContext parseContext = new Parser.ParseContext(text);
+
+        parsers.forEach(p -> p.parse(parseContext));
+        System.out.println(parseContext.el);
         Assert.assertTrue("1>>>" + parseContext.chainId, parseContext.chainId.equals("CASE2"));
         Assert.assertTrue("2>>>" + parseContext.head.nid, parseContext.head.nid.equals("A"));
         Assert.assertTrue("3>>>" + parseContext.head.next.size(), parseContext.head.next.size() == 1);
@@ -46,14 +63,13 @@ public class ParseTests {
 
         printGraph(parseContext.head, new HashSet<>());
     }
-
     @Test
-    public void testFlowNodesParser2_2() throws Exception {
-        String text = ResourceUtil.readUtf8Str("classpath://CASE2_2.md");
+    public void testFlowNodesParser2_e1() throws Exception {
+        String text = ResourceUtil.readUtf8Str("classpath://CASE2_e1.md");
         Parser.ParseContext parseContext = new Parser.ParseContext(text);
 
         parsers.forEach(p -> p.parse(parseContext));
-
+        System.out.println(parseContext.el);
         Assert.assertTrue("1>>>" + parseContext.chainId, parseContext.chainId.equals("CASE2"));
         Assert.assertTrue("2>>>" + parseContext.head.nid, parseContext.head.nid.equals("A"));
         Assert.assertTrue("3>>>" + parseContext.head.next.size(), parseContext.head.next.size() == 1);
@@ -121,5 +137,16 @@ public class ParseTests {
         Assert.assertTrue(">>>" + cache, !cache.contains("FABEND"));
         Assert.assertTrue(">>>" + cache, parseContext.el.contains(".any(true)"));
         Assert.assertTrue(">>>" + cache, parseContext.el.contains(".any(false)"));
+    }
+    @Test
+    public void testFlowNodesParser7() throws Exception {
+        String text = ResourceUtil.readUtf8Str("classpath://CASE7.md");
+        Parser.ParseContext parseContext = new Parser.ParseContext(text);
+
+        parsers.forEach(p -> p.parse(parseContext));
+
+        Set<String> cache = new HashSet<>();
+        printGraph(parseContext.head, cache);
+        System.out.println(parseContext.el);
     }
 }

@@ -89,5 +89,14 @@ public class MarkdownWithLocalMDSpringbootTest extends BaseTest {
                         || "A==>B==>C==>D==>D1==>D3==>D2==>H==>G".equals(actual)
         );
     }
+    @Test
+    public void testForCase007() throws Exception {
+        LiteflowResponse response = flowExecutor.execute2Resp("测试编排007", "D");
+        // G节点实现了Once语义。只跑一次
+        String actual = response.getExecuteStepStrWithoutTime();
+        Assert.assertTrue(">>>",
+                "A==>B==>D==>D1==>D2==>D3==>G".equals(actual)
+        );
+    }
 
 }

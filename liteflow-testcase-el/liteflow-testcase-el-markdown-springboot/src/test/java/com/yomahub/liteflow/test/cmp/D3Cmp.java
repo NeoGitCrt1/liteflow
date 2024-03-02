@@ -16,7 +16,7 @@ public class D3Cmp extends AbstractTestCmp {
 
     @Override
     public void process() throws Exception {
-        Thread.sleep(Long.parseLong(this.getTag()));
+        Thread.sleep(300);
         super.process();
     }
 
