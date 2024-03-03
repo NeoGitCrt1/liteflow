@@ -13,13 +13,19 @@ public class FinalizeParser implements Parser{
     }
 
     private void join(FlowChartNode root, StringJoiner main, ParseContext context) {
-        if (root.equals(context.skipParallelJoinPoint)) {
+        if (root == null || root.equals(context.skipParallelJoinPoint)) {
             return;
         }
 
+        String nid = root.nid;
+        // 为了兼容节点组件复用, 去掉#后面的部分取组件id.例如G#2 则得G,
+        int numFeildMark = nid.indexOf('#');
+        if (numFeildMark > 0) {
+            nid = nid.substring(0, numFeildMark);
+        }
         switch (root.type) {
             case COMMON:
-                main.add("node(\"" + root.nid + "\").tag(\"" + root.tag + "\")");
+                main.add("node(\"" + nid + "\").tag(\"" + root.tag + "\")");
 
                 if (root.next.isEmpty()) {
                     return;
@@ -56,7 +62,7 @@ public class FinalizeParser implements Parser{
 
                 break;
             case SWITCH:
-                StringJoiner sw = new StringJoiner(",", "SWITCH(node(\"" + root.nid + "\")).to(", ")");
+                StringJoiner sw = new StringJoiner(",", "SWITCH(node(\"" + nid + "\")).to(", ")");
                 for (FlowChartNode n : root.next) {
                     StringJoiner subMain = new StringJoiner(",", "THEN(", ").id(\"" + n.nid + "\")");
                     join(n, subMain, context);
