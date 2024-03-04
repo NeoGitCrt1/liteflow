@@ -83,7 +83,8 @@ public class FinalizeParser implements Parser{
                 if (v == null) {
                     return 1;
                 }
-                return v++;
+                v += 1;
+                return v;
             });
             return;
         }
