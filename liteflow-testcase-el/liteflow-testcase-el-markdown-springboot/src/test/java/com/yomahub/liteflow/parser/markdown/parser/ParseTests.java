@@ -149,4 +149,15 @@ public class ParseTests {
         printGraph(parseContext.head, cache);
         System.out.println(parseContext.el);
     }
+    @Test
+    public void testFlowNodesParser8() throws Exception {
+        String text = ResourceUtil.readUtf8Str("classpath://CASE8.md");
+        Parser.ParseContext parseContext = new Parser.ParseContext(text);
+
+        parsers.forEach(p -> p.parse(parseContext));
+
+        Set<String> cache = new HashSet<>();
+        printGraph(parseContext.head, cache);
+        System.out.println(parseContext.el);
+    }
 }

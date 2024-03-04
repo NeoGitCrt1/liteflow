@@ -105,7 +105,7 @@ public class MarkdownWithLocalMDSpringbootTest extends BaseTest {
         // G节点实现了Once语义。只跑一次
         String actual = response.getExecuteStepStrWithoutTime();
         Assert.assertTrue(">>>",
-                "A==>B==>D==>D1==>D2==>D3==>I==>E==>F==>I==>H".equals(actual)
+                "A==>B==>D==>D1==>F11==>D2==>D3==>I==>E==>F==>I==>H".equals(actual)
         );
     }
 
