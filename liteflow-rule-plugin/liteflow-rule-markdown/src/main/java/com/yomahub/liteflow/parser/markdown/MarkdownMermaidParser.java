@@ -1,7 +1,6 @@
 package com.yomahub.liteflow.parser.markdown;
 
 import cn.hutool.core.collection.ListUtil;
-import com.google.common.collect.ImmutableList;
 import com.yomahub.liteflow.builder.el.LiteFlowChainELBuilder;
 import com.yomahub.liteflow.parser.base.FlowParser;
 import com.yomahub.liteflow.parser.el.ClassJsonFlowELParser;
@@ -15,6 +14,7 @@ import com.yomahub.liteflow.property.LiteflowConfig;
 import com.yomahub.liteflow.property.LiteflowConfigGetter;
 import com.yomahub.liteflow.spi.holder.PathContentParserHolder;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,7 +62,7 @@ public class MarkdownMermaidParser extends ClassJsonFlowELParser {
      * @throws Exception
      */
 
-    private final List<Parser> parsers = ImmutableList.of(new NormalizeParser(), new GlobalCheckParser(), new ChainIdParser(), new FlowNodesParser(), new FinalizeParser());
+    private final List<Parser> parsers = Arrays.asList(new NormalizeParser(), new GlobalCheckParser(), new ChainIdParser(), new FlowNodesParser(), new FinalizeParser());
 
     @Override
     public void parse(List<String> contentList) throws Exception {
