@@ -2,7 +2,6 @@ package com.yomahub.liteflow.parser.markdown;
 
 import cn.hutool.core.collection.ListUtil;
 import com.yomahub.liteflow.builder.el.LiteFlowChainELBuilder;
-import com.yomahub.liteflow.parser.base.FlowParser;
 import com.yomahub.liteflow.parser.el.ClassJsonFlowELParser;
 import com.yomahub.liteflow.parser.markdown.parser.ChainIdParser;
 import com.yomahub.liteflow.parser.markdown.parser.FinalizeParser;
@@ -15,7 +14,6 @@ import com.yomahub.liteflow.property.LiteflowConfigGetter;
 import com.yomahub.liteflow.spi.holder.PathContentParserHolder;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class MarkdownMermaidParser extends ClassJsonFlowELParser {
@@ -37,33 +35,15 @@ public class MarkdownMermaidParser extends ClassJsonFlowELParser {
         return null;
     }
 
+
+    public static final List<Parser> parsers = Arrays.asList(new NormalizeParser(), new GlobalCheckParser(), new ChainIdParser(), new FlowNodesParser(), new FinalizeParser());
+
     /**
-     * #
-     * ```mermaid
-     * ---
-     * title: your chainId here
-     * ---
-     * flowchart LR
-     * A[step description] --> B
-     * B --> C{SWITCH specified mark}
-     * C -->|One (Comment here will be passed as tag)| D[Result 1]
-     * C --Two (Comment here will NOT be passed as tag, just treated as normal comment)--> E[Result 2]
-     * ```
-     * # Any flowchart below will not be parsed. Only for documentation purpose
-     * ```mermaid
-     * ---
-     * title: Step B design graph
-     * ---
-     * flowchart LR
-     * BStart[step description] --> BStep1[Step 1 description] -->  BFinish[Finish step description]
-     * ```
+     *  samples of content , see README.md
      *
      * @param contentList
      * @throws Exception
      */
-
-    private final List<Parser> parsers = Arrays.asList(new NormalizeParser(), new GlobalCheckParser(), new ChainIdParser(), new FlowNodesParser(), new FinalizeParser());
-
     @Override
     public void parse(List<String> contentList) throws Exception {
 

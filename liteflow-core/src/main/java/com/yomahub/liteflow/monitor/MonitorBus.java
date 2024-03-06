@@ -17,7 +17,11 @@ import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -41,7 +45,7 @@ public class MonitorBus {
 	public MonitorBus(LiteflowConfig liteflowConfig) {
 		this.liteflowConfig = liteflowConfig;
 
-		if(BooleanUtil.isTrue(liteflowConfig.getEnableLog())){
+		if (BooleanUtil.isTrue(liteflowConfig.getEnableMonitorLog())) {
 			this.printLogScheduler.scheduleAtFixedRate(new MonitorTimeTask(this), liteflowConfig.getDelay(), liteflowConfig.getPeriod(), TimeUnit.MILLISECONDS);
 		}
 	}

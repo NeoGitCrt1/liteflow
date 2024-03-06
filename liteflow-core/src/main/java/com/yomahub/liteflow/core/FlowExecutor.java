@@ -9,9 +9,20 @@
 package com.yomahub.liteflow.core;
 
 import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.*;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
 import com.yomahub.liteflow.enums.InnerChainTypeEnum;
-import com.yomahub.liteflow.exception.*;
+import com.yomahub.liteflow.exception.ChainDuplicateException;
+import com.yomahub.liteflow.exception.ChainEndException;
+import com.yomahub.liteflow.exception.ChainNotFoundException;
+import com.yomahub.liteflow.exception.ConfigErrorException;
+import com.yomahub.liteflow.exception.CyclicDependencyException;
+import com.yomahub.liteflow.exception.FlowExecutorNotInitException;
+import com.yomahub.liteflow.exception.MultipleParsersException;
+import com.yomahub.liteflow.exception.NoAvailableSlotException;
 import com.yomahub.liteflow.flow.FlowBus;
 import com.yomahub.liteflow.flow.LiteflowResponse;
 import com.yomahub.liteflow.flow.element.Chain;
@@ -30,7 +41,12 @@ import com.yomahub.liteflow.thread.ExecutorHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ServiceLoader;
+import java.util.Set;
 import java.util.concurrent.Future;
 
 /**
@@ -287,9 +303,7 @@ public class FlowExecutor {
             }else{
                 slotIndex = DataBus.offerSlotByBean(ListUtil.toList(contextBeanArray));
             }
-            if (BooleanUtil.isTrue(liteflowConfig.getPrintExecutionLog())) {
-                LOG.info("slot[{}] offered", slotIndex);
-            }
+            LOG.debug("slot[{}] offered", slotIndex);
         }
 
         if (slotIndex == -1) {
@@ -312,9 +326,7 @@ public class FlowExecutor {
 
         if (StrUtil.isBlank(slot.getRequestId())) {
             slot.generateRequestId();
-            if (BooleanUtil.isTrue(liteflowConfig.getPrintExecutionLog())) {
-                LOG.info("requestId[{}] has generated", slot.getRequestId());
-            }
+            LOG.debug("requestId[{}] has generated", slot.getRequestId());
         }
 
         if (ObjectUtil.isNotNull(param)) {
@@ -345,17 +357,10 @@ public class FlowExecutor {
         } catch (Exception e) {
             if (ObjectUtil.isNotNull(chain)) {
                 String errMsg = StrUtil.format("[{}]:chain[{}] execute error on slot[{}]", slot.getRequestId(), chain.getChainName(), slotIndex);
-                if (BooleanUtil.isTrue(liteflowConfig.getPrintExecutionLog())){
-                    LOG.error(errMsg, e);
-                }else{
-                    LOG.error(errMsg);
-                }
+                LOG.error(errMsg, e);
+
             }else{
-                if (BooleanUtil.isTrue(liteflowConfig.getPrintExecutionLog())){
-                    LOG.error(e.getMessage(), e);
-                }else{
-                    LOG.error(e.getMessage());
-                }
+                LOG.error(e.getMessage(), e);
             }
 
             //如果是正常流程需要把异常设置到slot的exception属性里

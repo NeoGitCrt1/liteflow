@@ -10,6 +10,10 @@ package com.yomahub.liteflow.property;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.yomahub.liteflow.flow.executor.DefaultNodeExecutor;
+import com.yomahub.liteflow.flow.id.DefaultRequestIdGenerator;
+import com.yomahub.liteflow.thread.LiteFlowDefaultMainExecutorBuilder;
+import com.yomahub.liteflow.thread.LiteFlowDefaultWhenExecutorBuilder;
 
 import java.util.Map;
 
@@ -46,7 +50,7 @@ public class LiteflowConfig {
     private Integer whenMaxWaitSeconds;
 
     //是否打印监控log
-    private Boolean enableLog;
+    private Boolean enableMonitorLog;
 
     //监控存储信息最大队列数量
     private Integer queueLimit;
@@ -87,9 +91,6 @@ public class LiteflowConfig {
 
     //FlowExecutor的execute2Future的自定义线程池
     private String mainExecutorClass;
-
-    //是否打印执行中的日志
-    private Boolean printExecutionLog;
 
     //替补组件class路径
     private String substituteCmpClass;
@@ -174,16 +175,16 @@ public class LiteflowConfig {
         this.period = period;
     }
 
-    public Boolean getEnableLog() {
-        if (ObjectUtil.isNull(enableLog)) {
+    public Boolean getEnableMonitorLog() {
+        if (ObjectUtil.isNull(enableMonitorLog)) {
             return Boolean.FALSE;
         } else {
-            return enableLog;
+            return enableMonitorLog;
         }
     }
 
-    public void setEnableLog(Boolean enableLog) {
-        this.enableLog = enableLog;
+    public void setEnableMonitorLog(Boolean enableMonitorLog) {
+        this.enableMonitorLog = enableMonitorLog;
     }
 
     public Integer getWhenMaxWorkers() {
@@ -260,7 +261,7 @@ public class LiteflowConfig {
 
     public String getThreadExecutorClass() {
         if (StrUtil.isBlank(threadExecutorClass)){
-            return "com.yomahub.liteflow.thread.LiteFlowDefaultWhenExecutorBuilder";
+            return LiteFlowDefaultWhenExecutorBuilder.class.getName();
         }else{
             return threadExecutorClass;
         }
@@ -272,7 +273,7 @@ public class LiteflowConfig {
 
     public String getNodeExecutorClass() {
         if (StrUtil.isBlank(nodeExecutorClass)){
-            return "com.yomahub.liteflow.flow.executor.DefaultNodeExecutor";
+            return DefaultNodeExecutor.class.getName();
         }else{
             return nodeExecutorClass;
         }
@@ -284,7 +285,7 @@ public class LiteflowConfig {
 
     public String getRequestIdGeneratorClass() {
         if(StrUtil.isBlank(this.requestIdGeneratorClass)){
-            return "com.yomahub.liteflow.flow.id.DefaultRequestIdGenerator";
+            return DefaultRequestIdGenerator.class.getName();
         }
         return requestIdGeneratorClass;
     }
@@ -307,7 +308,7 @@ public class LiteflowConfig {
 
     public String getMainExecutorClass() {
         if (StrUtil.isBlank(mainExecutorClass)){
-            return "com.yomahub.liteflow.thread.LiteFlowDefaultMainExecutorBuilder";
+            return LiteFlowDefaultMainExecutorBuilder.class.getName();
         }else{
             return mainExecutorClass;
         }
@@ -315,18 +316,6 @@ public class LiteflowConfig {
 
     public void setMainExecutorClass(String mainExecutorClass) {
         this.mainExecutorClass = mainExecutorClass;
-    }
-
-    public Boolean getPrintExecutionLog() {
-        if (ObjectUtil.isNull(printExecutionLog)){
-            return Boolean.TRUE;
-        }else{
-            return printExecutionLog;
-        }
-    }
-
-    public void setPrintExecutionLog(Boolean printExecutionLog) {
-        this.printExecutionLog = printExecutionLog;
     }
 
     public String getSubstituteCmpClass() {

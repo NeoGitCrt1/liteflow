@@ -7,25 +7,24 @@
  */
 package com.yomahub.liteflow.flow.element;
 
-import java.text.MessageFormat;
-
-import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.yomahub.liteflow.core.NodeComponent;
-import com.yomahub.liteflow.property.LiteflowConfig;
-import com.yomahub.liteflow.property.LiteflowConfigGetter;
-import com.yomahub.liteflow.slot.DataBus;
-import com.yomahub.liteflow.slot.Slot;
-import com.yomahub.liteflow.flow.executor.NodeExecutor;
-import com.yomahub.liteflow.flow.executor.NodeExecutorHelper;
 import com.yomahub.liteflow.enums.ExecuteTypeEnum;
 import com.yomahub.liteflow.enums.NodeTypeEnum;
 import com.yomahub.liteflow.exception.ChainEndException;
 import com.yomahub.liteflow.exception.FlowSystemException;
+import com.yomahub.liteflow.flow.executor.NodeExecutor;
+import com.yomahub.liteflow.flow.executor.NodeExecutorHelper;
+import com.yomahub.liteflow.property.LiteflowConfig;
+import com.yomahub.liteflow.property.LiteflowConfigGetter;
+import com.yomahub.liteflow.slot.DataBus;
+import com.yomahub.liteflow.slot.Slot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.text.MessageFormat;
 
 /**
  * Node节点，实现可执行器
@@ -119,9 +118,7 @@ public class Node implements Executable,Cloneable{
 			//判断是否可执行，所以isAccess经常作为一个组件进入的实际判断要素，用作检查slot里的参数的完备性
 			if (instance.isAccess()) {
 				//根据配置判断是否打印执行中的日志
-				if (BooleanUtil.isTrue(liteflowConfig.getPrintExecutionLog())){
-					LOG.info("[{}]:[O]start component[{}] execution",slot.getRequestId(), instance.getDisplayName());
-				}
+                LOG.debug("[{}]:[O]start component[{}] execution", slot.getRequestId(), instance.getDisplayName());
 
 				//这里开始进行重试的逻辑和主逻辑的运行
 				NodeExecutor nodeExecutor = NodeExecutorHelper.loadInstance().buildNodeExecutor(instance.getNodeExecutorClass());
@@ -133,9 +130,7 @@ public class Node implements Executable,Cloneable{
 					throw new ChainEndException(errorInfo);
 				}
 			} else {
-				if (BooleanUtil.isTrue(liteflowConfig.getPrintExecutionLog())){
-					LOG.info("[{}]:[X]skip component[{}] execution", slot.getRequestId(), instance.getDisplayName());
-				}
+                LOG.debug("[{}]:[X]skip component[{}] execution", slot.getRequestId(), instance.getDisplayName());
 			}
 		} catch (ChainEndException e){
 			throw e;

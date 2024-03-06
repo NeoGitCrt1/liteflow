@@ -14,11 +14,9 @@ import com.yomahub.liteflow.exception.NoSuchContextBeanException;
 import com.yomahub.liteflow.exception.NullParamException;
 import com.yomahub.liteflow.flow.entity.CmpStep;
 import com.yomahub.liteflow.flow.id.IdGeneratorHolder;
-import com.yomahub.liteflow.property.LiteflowConfigGetter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.charset.Charset;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
@@ -290,11 +288,11 @@ public class Slot{
 	}
 
 	public void printStep(){
-		if (ObjectUtil.isNull(this.executeStepsStr)){
-			this.executeStepsStr = getExecuteStepStr(true);
-		}
-		if (LiteflowConfigGetter.get().getPrintExecutionLog()){
-			LOG.info("[{}]:CHAIN_NAME[{}]\n{}",getRequestId(),this.getChainName(), this.executeStepsStr);
+		if (LOG.isDebugEnabled()) {
+			if (ObjectUtil.isNull(this.executeStepsStr)) {
+				this.executeStepsStr = getExecuteStepStr(true);
+			}
+			LOG.debug("[{}]:CHAIN_NAME[{}] ; Step Chain: {}", getRequestId(), this.getChainName(), this.executeStepsStr);
 		}
 	}
 

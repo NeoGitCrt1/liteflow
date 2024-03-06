@@ -8,6 +8,7 @@
  */
 package com.yomahub.liteflow.test.cmp;
 
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 @Component("D1")
@@ -18,5 +19,6 @@ public class D1Cmp extends AbstractTestCmp {
     public void process() throws Exception {
         Thread.sleep(250);
         super.process();
+        log.info("MDC trans {}", MDC.get("traceId"));
     }
 }

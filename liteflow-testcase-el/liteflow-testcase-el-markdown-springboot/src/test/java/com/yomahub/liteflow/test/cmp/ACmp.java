@@ -7,11 +7,17 @@
  */
 package com.yomahub.liteflow.test.cmp;
 
-import com.yomahub.liteflow.core.NodeComponent;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 @Component("A")
 public class ACmp extends AbstractTestCmp {
 
 
+    @Override
+    public void process() throws Exception {
+        MDC.put("traceId", "556");
+        super.process();
+        log.info("MDC trans {}", MDC.get("traceId"));
+    }
 }

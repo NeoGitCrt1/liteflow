@@ -12,8 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StopWatch;
 
 import javax.annotation.Resource;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * springboot环境下的nacos配置源功能测试
@@ -110,5 +114,27 @@ public class MarkdownWithLocalMDSpringbootTest extends BaseTest {
                 || "A==>B==>D==>D1==>D3==>D2==>F11==>I==>E==>F==>I==>H".equals(actual)
         );
     }
+
+    @Test
+    public void testForCase008Benchmark() throws Exception {
+        StopWatch stopWatch = new StopWatch();
+
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(100, 100, 0, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+
+        final int loop = 10000;
+        stopWatch.start();
+        for (int i = 0; i < loop; i++) {
+            threadPoolExecutor.submit(() -> {
+                LiteflowResponse response = flowExecutor.execute2Resp("测试编排008", "D");
+            });
+        }
+        threadPoolExecutor.shutdown();
+        threadPoolExecutor.awaitTermination(1, TimeUnit.HOURS);
+        stopWatch.stop();
+        // G节点实现了Once语义。只跑一次
+
+        System.out.println(stopWatch.toString());
+    }
+
 
 }

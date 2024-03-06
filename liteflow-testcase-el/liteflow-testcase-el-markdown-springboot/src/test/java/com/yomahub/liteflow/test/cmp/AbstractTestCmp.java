@@ -9,6 +9,6 @@ public abstract class AbstractTestCmp extends NodeComponent {
     @Override
     public void process() throws Exception {
         String tag = this.getTag();
-        log.info("executed! > tag:" + tag);
+        log.info("[{}] {} executed! > tag: {}", this.getSlot().getRequestId(), this.getNodeId(), tag);
     }
 }

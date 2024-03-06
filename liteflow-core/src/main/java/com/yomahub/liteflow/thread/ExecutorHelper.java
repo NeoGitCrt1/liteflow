@@ -9,7 +9,6 @@
 package com.yomahub.liteflow.thread;
 
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.yomahub.liteflow.exception.ThreadExecutorServiceCreateException;
 import com.yomahub.liteflow.property.LiteflowConfig;
@@ -19,7 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -119,16 +119,17 @@ public class ExecutorHelper {
      */
     private ExecutorService getExecutorService(String clazz) {
         try{
-            ExecutorService executorServiceFromCache = executorServiceMap.get(clazz);
-            if (ObjectUtil.isNotNull(executorServiceFromCache)) {
-                return executorServiceFromCache;
-            } else {
-                Class<ExecutorBuilder> executorClass  = (Class<ExecutorBuilder>) Class.forName(clazz);
+            return executorServiceMap.computeIfAbsent(clazz, (k) -> {
+                Class<ExecutorBuilder> executorClass;
+                try {
+                    executorClass = (Class<ExecutorBuilder>) Class.forName(k);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
                 ExecutorBuilder executorBuilder = ContextAwareHolder.loadContextAware().registerBean(executorClass);
                 ExecutorService executorService = executorBuilder.buildExecutor();
-                executorServiceMap.put(clazz, executorService);
                 return executorService;
-            }
+            });
         }catch (Exception e){
             LOG.error(e.getMessage());
             throw new ThreadExecutorServiceCreateException(e.getMessage());
@@ -136,8 +137,6 @@ public class ExecutorHelper {
     }
 
     public void clearExecutorServiceMap(){
-        if (MapUtil.isNotEmpty(executorServiceMap)){
-            executorServiceMap.clear();
-        }
+        executorServiceMap.clear();
     }
 }

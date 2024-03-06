@@ -64,9 +64,6 @@ public class LiteflowProperty {
     // requestId 生成器
     private String requestIdGeneratorClass;
 
-    //是否打印执行过程中的日志
-    private boolean printExecutionLog;
-
     //替补组件的class路径
     private String substituteCmpClass;
 
@@ -180,14 +177,6 @@ public class LiteflowProperty {
 
     public void setMainExecutorClass(String mainExecutorClass) {
         this.mainExecutorClass = mainExecutorClass;
-    }
-
-    public boolean isPrintExecutionLog() {
-        return printExecutionLog;
-    }
-
-    public void setPrintExecutionLog(boolean printExecutionLog) {
-        this.printExecutionLog = printExecutionLog;
     }
 
     public String getRequestIdGeneratorClass() {

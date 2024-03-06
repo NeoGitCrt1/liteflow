@@ -30,7 +30,7 @@ public class LiteflowPropertyAutoConfiguration {
         liteflowConfig.setSlotSize(property.getSlotSize());
         liteflowConfig.setThreadExecutorClass(property.getThreadExecutorClass());
         liteflowConfig.setWhenMaxWaitSeconds(property.getWhenMaxWaitSeconds());
-        liteflowConfig.setEnableLog(liteflowMonitorProperty.isEnableLog());
+        liteflowConfig.setEnableMonitorLog(liteflowMonitorProperty.isEnableLog());
         liteflowConfig.setQueueLimit(liteflowMonitorProperty.getQueueLimit());
         liteflowConfig.setDelay(liteflowMonitorProperty.getDelay());
         liteflowConfig.setPeriod(liteflowMonitorProperty.getPeriod());
@@ -45,7 +45,6 @@ public class LiteflowPropertyAutoConfiguration {
         liteflowConfig.setRequestIdGeneratorClass(property.getRequestIdGeneratorClass());
         liteflowConfig.setMainExecutorWorks(property.getMainExecutorWorks());
         liteflowConfig.setMainExecutorClass(property.getMainExecutorClass());
-        liteflowConfig.setPrintExecutionLog(property.isPrintExecutionLog());
         liteflowConfig.setSubstituteCmpClass(property.getSubstituteCmpClass());
         return liteflowConfig;
     }
