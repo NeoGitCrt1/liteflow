@@ -17,11 +17,7 @@ import com.yomahub.liteflow.util.BoundedPriorityBlockingQueue;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -46,7 +42,7 @@ public class MonitorBus {
 	public MonitorBus(LiteflowConfig liteflowConfig) {
 		this.liteflowConfig = liteflowConfig;
 
-		if (BooleanUtil.isTrue(liteflowConfig.getEnableMonitorLog())) {
+		if (BooleanUtil.isTrue(liteflowConfig.getEnableLog())) {
 			this.printLogScheduler.scheduleAtFixedRate(new MonitorTimeTask(this), liteflowConfig.getDelay(),
 					liteflowConfig.getPeriod(), TimeUnit.MILLISECONDS);
 		}
@@ -74,7 +70,7 @@ public class MonitorBus {
 					totalTimeSpent += statistics.getTimeSpent();
 				}
 				compAverageTimeSpent.put(entry.getKey(), new BigDecimal(totalTimeSpent)
-					.divide(new BigDecimal(entry.getValue().size()), 2, RoundingMode.HALF_UP));
+						.divide(new BigDecimal(entry.getValue().size()), 2, RoundingMode.HALF_UP));
 			}
 
 			List<Entry<String, BigDecimal>> compAverageTimeSpentEntryList = new ArrayList<>(

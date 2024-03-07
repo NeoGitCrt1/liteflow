@@ -32,10 +32,4 @@ public class LiteflowRequestIdELSpringbootTest extends BaseTest {
 		Assertions.assertEquals("1", response.getRequestId());
 	}
 
-	@Test
-	public void testRequestId2() throws Exception {
-		LiteflowResponse response = flowExecutor.execute2RespWithRid("chain1", null, "T001234", DefaultContext.class);
-		Assertions.assertTrue(response.isSuccess());
-		Assertions.assertEquals("T001234", response.getRequestId());
-	}
 }

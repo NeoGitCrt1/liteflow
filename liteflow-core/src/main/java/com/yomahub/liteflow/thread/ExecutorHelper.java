@@ -9,6 +9,7 @@
 package com.yomahub.liteflow.thread;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.yomahub.liteflow.exception.ThreadExecutorServiceCreateException;
 import com.yomahub.liteflow.log.LFLog;
@@ -149,17 +150,17 @@ public class ExecutorHelper {
 				key = StrUtil.format("{}_{}", clazz, conditionHash);
 			}
 
-			ExecutorService executorServiceFromCache = executorServiceMap.get(key);
-			if (ObjectUtil.isNotNull(executorServiceFromCache)) {
-				return executorServiceFromCache;
-			}
-			else {
-				Class<ExecutorBuilder> executorClass = (Class<ExecutorBuilder>) Class.forName(clazz);
+			return executorServiceMap.computeIfAbsent(clazz, (k) -> {
+				Class<ExecutorBuilder> executorClass;
+				try {
+					executorClass = (Class<ExecutorBuilder>) Class.forName(k);
+				} catch (ClassNotFoundException e) {
+					throw new RuntimeException(e);
+				}
 				ExecutorBuilder executorBuilder = ContextAwareHolder.loadContextAware().registerBean(executorClass);
 				ExecutorService executorService = executorBuilder.buildExecutor();
-				executorServiceMap.put(key, executorService);
 				return executorService;
-			}
+			});
 		}
 		catch (Exception e) {
 			LOG.error(e.getMessage());

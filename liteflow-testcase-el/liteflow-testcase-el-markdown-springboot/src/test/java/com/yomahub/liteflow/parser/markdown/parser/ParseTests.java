@@ -2,8 +2,8 @@ package com.yomahub.liteflow.parser.markdown.parser;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import com.yomahub.liteflow.parser.markdown.MarkdownMermaidParser;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,13 +20,13 @@ public class ParseTests {
         parsers.forEach(p ->p.parse(parseContext));
         System.out.println(parseContext.el);
 
-        Assert.assertTrue("1>>>" + parseContext.chainId, parseContext.chainId.equals("asd"));
+        Assertions.assertTrue( parseContext.chainId.equals("asd"));
 
-        Assert.assertTrue("2>>>" + parseContext.head.nid, parseContext.head.nid.equals("A"));
-        Assert.assertTrue("3>>>" + parseContext.head.next.size(), parseContext.head.next.size() == 3);
-        Assert.assertTrue("4>>>" + parseContext.head.next.get(0), parseContext.head.next.get(0).nid.equals("E"));
-        Assert.assertTrue("5>>>" + parseContext.head.next.get(1), parseContext.head.next.get(1).nid.equals("C"));
-        Assert.assertTrue("5>>>" + parseContext.head.next.get(2), parseContext.head.next.get(2).nid.equals("G"));
+        Assertions.assertTrue(parseContext.head.nid.equals("A"));
+        Assertions.assertTrue( parseContext.head.next.size() == 3);
+        Assertions.assertTrue( parseContext.head.next.get(0).nid.equals("E"));
+        Assertions.assertTrue( parseContext.head.next.get(1).nid.equals("C"));
+        Assertions.assertTrue( parseContext.head.next.get(2).nid.equals("G"));
         printGraph(parseContext.head, new HashSet<>());
 
     }
@@ -39,12 +39,12 @@ public class ParseTests {
         parsers.forEach(p -> p.parse(parseContext));
         printGraph(parseContext.head, new HashSet<>());
         System.out.println(parseContext.el);
-        Assert.assertTrue("1>>>" + parseContext.chainId, parseContext.chainId.equals("CASE2"));
-        Assert.assertTrue("2>>>" + parseContext.head.nid, parseContext.head.nid.equals("A"));
-        Assert.assertTrue("3>>>" + parseContext.head.next.size(), parseContext.head.next.size() == 1);
+        Assertions.assertTrue(parseContext.chainId.equals("CASE2"));
+        Assertions.assertTrue(parseContext.head.nid.equals("A"));
+        Assertions.assertTrue( parseContext.head.next.size() == 1);
 
         Parser.FlowChartNode b = parseContext.head.next.get(0);
-        Assert.assertTrue("4>>>" + b, b.nid.equals("B"));
+        Assertions.assertTrue(b.nid.equals("B"));
 
     }
 
@@ -55,12 +55,12 @@ public class ParseTests {
 
         parsers.forEach(p -> p.parse(parseContext));
         System.out.println(parseContext.el);
-        Assert.assertTrue("1>>>" + parseContext.chainId, parseContext.chainId.equals("CASE2"));
-        Assert.assertTrue("2>>>" + parseContext.head.nid, parseContext.head.nid.equals("A"));
-        Assert.assertTrue("3>>>" + parseContext.head.next.size(), parseContext.head.next.size() == 1);
+        Assertions.assertTrue(parseContext.chainId.equals("CASE2"));
+        Assertions.assertTrue( parseContext.head.nid.equals("A"));
+        Assertions.assertTrue( parseContext.head.next.size() == 1);
 
         Parser.FlowChartNode b = parseContext.head.next.get(0);
-        Assert.assertTrue("4>>>" + b, b.nid.equals("B"));
+        Assertions.assertTrue( b.nid.equals("B"));
 
         printGraph(parseContext.head, new HashSet<>());
     }
@@ -71,8 +71,8 @@ public class ParseTests {
 
         parsers.forEach(p -> p.parse(parseContext));
         System.out.println(parseContext.el);
-        Assert.assertTrue("1>>>" + parseContext.chainId, parseContext.chainId.equals("CASE2"));
-        Assert.assertTrue("2>>>" + parseContext.head.nid, !parseContext.head.nid.equals("A"));
+        Assertions.assertTrue(parseContext.chainId.equals("CASE2"));
+        Assertions.assertTrue(!parseContext.head.nid.equals("A"));
         printGraph(parseContext.head, new HashSet<>());
     }
 
@@ -86,9 +86,9 @@ public class ParseTests {
         Set<String> cache = new HashSet<>();
         printGraph(parseContext.head, cache);
         System.out.println(parseContext.el);
-        Assert.assertTrue(">>>" + cache, !cache.contains("FB"));
-        Assert.assertTrue(">>>" + cache, !cache.contains("FA"));
-        Assert.assertTrue(">>>" + cache, !cache.contains("FABEND"));
+        Assertions.assertTrue(!cache.contains("FB"));
+        Assertions.assertTrue( !cache.contains("FA"));
+        Assertions.assertTrue(!cache.contains("FABEND"));
     }
 
 
@@ -102,9 +102,9 @@ public class ParseTests {
         Set<String> cache = new HashSet<>();
         printGraph(parseContext.head, cache);
         System.out.println(parseContext.el);
-        Assert.assertTrue(">>>" + cache, !cache.contains("FB"));
-        Assert.assertTrue(">>>" + cache, !cache.contains("FA"));
-        Assert.assertTrue(">>>" + cache, !cache.contains("FABEND"));
+        Assertions.assertTrue(!cache.contains("FB"));
+        Assertions.assertTrue(!cache.contains("FA"));
+        Assertions.assertTrue( !cache.contains("FABEND"));
     }
 
     private void printGraph(Parser.FlowChartNode head, Set<String> printedCache) {
@@ -128,11 +128,11 @@ public class ParseTests {
         Set<String> cache = new HashSet<>();
         printGraph(parseContext.head, cache);
         System.out.println(parseContext.el);
-        Assert.assertTrue(">>>" + cache, !cache.contains("FB"));
-        Assert.assertTrue(">>>" + cache, !cache.contains("FA"));
-        Assert.assertTrue(">>>" + cache, !cache.contains("FABEND"));
-        Assert.assertTrue(">>>" + cache, parseContext.el.contains(".any(true)"));
-        Assert.assertTrue(">>>" + cache, parseContext.el.contains(".any(false)"));
+        Assertions.assertTrue( !cache.contains("FB"));
+        Assertions.assertTrue( !cache.contains("FA"));
+        Assertions.assertTrue( !cache.contains("FABEND"));
+        Assertions.assertTrue( parseContext.el.contains(".any(true)"));
+        Assertions.assertTrue( parseContext.el.contains(".any(false)"));
     }
     @Test
     public void testFlowNodesParser7() throws Exception {

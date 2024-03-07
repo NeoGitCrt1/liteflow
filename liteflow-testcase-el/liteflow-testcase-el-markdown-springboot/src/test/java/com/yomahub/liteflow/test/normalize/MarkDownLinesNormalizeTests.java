@@ -4,8 +4,8 @@ import com.yomahub.liteflow.parser.markdown.parser.ChainIdParser;
 import com.yomahub.liteflow.parser.markdown.parser.FlowNodesParser;
 import com.yomahub.liteflow.parser.markdown.parser.NormalizeParser;
 import com.yomahub.liteflow.parser.markdown.parser.Parser;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
@@ -20,7 +20,7 @@ public class MarkDownLinesNormalizeTests {
 
         normalizeParser.parse(parseContext);
 
-        Assert.assertTrue(parseContext.lines.length == 0);
+        Assertions.assertTrue(parseContext.lines.length == 0);
     }
 
     @Test
@@ -39,10 +39,10 @@ public class MarkDownLinesNormalizeTests {
 
         normalizeParser.parse(parseContext);
 
-        Assert.assertTrue(">>" + parseContext.lines.length,parseContext.lines.length == 5);
-        Assert.assertTrue(parseContext.lines[1].startsWith("---"));
-        Assert.assertTrue(parseContext.lines[2].startsWith("title: "));
-        Assert.assertTrue(parseContext.lines[3].startsWith("---"));
+        Assertions.assertTrue(parseContext.lines.length == 5,">>" + parseContext.lines.length);
+        Assertions.assertTrue(parseContext.lines[1].startsWith("---"));
+        Assertions.assertTrue(parseContext.lines[2].startsWith("title: "));
+        Assertions.assertTrue(parseContext.lines[3].startsWith("---"));
     }
 
 
@@ -65,7 +65,7 @@ public class MarkDownLinesNormalizeTests {
 
         chainIdParser.parse(parseContext);
 
-        Assert.assertTrue(">>>" + parseContext.chainId, parseContext.chainId.equals("asd"));
+        Assertions.assertTrue( parseContext.chainId.equals("asd"), ">>>" + parseContext.chainId);
     }
 
     @Test
