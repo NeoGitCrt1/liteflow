@@ -8,7 +8,6 @@
 package com.yomahub.liteflow.slot;
 
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.yomahub.liteflow.log.LFLog;
@@ -135,7 +134,7 @@ public class DataBus {
 
 	public static void releaseSlot(int slotIndex) {
 		if (ObjectUtil.isNotNull(SLOTS.get(slotIndex))) {
-			LOG.info("slot[{}] released", slotIndex);
+			LOG.debug("slot[{}] released", slotIndex);
 			SLOTS.remove(slotIndex);
 			QUEUE.add(slotIndex);
 			OCCUPY_COUNT.decrementAndGet();

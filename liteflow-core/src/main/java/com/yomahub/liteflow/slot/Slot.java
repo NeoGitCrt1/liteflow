@@ -20,6 +20,8 @@ import com.yomahub.liteflow.flow.id.IdGeneratorHolder;
 import com.yomahub.liteflow.log.LFLog;
 import com.yomahub.liteflow.log.LFLoggerManager;
 import com.yomahub.liteflow.property.LiteflowConfigGetter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Deque;
 import java.util.Iterator;
@@ -92,7 +94,7 @@ public class Slot {
 	protected ConcurrentHashMap<String, Object> metaDataMap = new ConcurrentHashMap<>();
 
 	private List<Object> contextBeanList;
-	
+
 	private static final TransmittableThreadLocal<Deque<Condition>> conditionStack = TransmittableThreadLocal.withInitial(ConcurrentLinkedDeque::new);
 
 	public Slot() {
@@ -293,15 +295,15 @@ public class Slot {
 	public Iterator<?> getIteratorResult(String key) {
 		return getThreadMetaData(ITERATOR_PREFIX + key);
 	}
-	
+
 	public Condition getCurrentCondition() {
 		return conditionStack.get().peek();
 	}
-	
+
 	public void pushCondition(Condition condition) {
 		conditionStack.get().push(condition);
 	}
-	
+
 	public void popCondition() {
 		conditionStack.get().pop();
 	}
@@ -360,11 +362,11 @@ public class Slot {
 	}
 
 	public void printStep() {
-		if (ObjectUtil.isNull(this.executeStepsStr)) {
+		if (LOG.isDebugEnabled()) {
+			if (ObjectUtil.isNull(this.executeStepsStr)) {
 			this.executeStepsStr = getExecuteStepStr(true);
 		}
-		if (LiteflowConfigGetter.get().getPrintExecutionLog()) {
-			LOG.info("CHAIN_NAME[{}]\n{}", this.getChainName(), this.executeStepsStr);
+			LOG.debug("CHAIN_NAME[{}] ; Step Chain:{}", this.getChainName(), this.executeStepsStr);
 		}
 	}
 

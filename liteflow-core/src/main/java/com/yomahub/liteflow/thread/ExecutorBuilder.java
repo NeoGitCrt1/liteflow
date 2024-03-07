@@ -1,8 +1,15 @@
 package com.yomahub.liteflow.thread;
 
 import com.alibaba.ttl.threadpool.TtlExecutors;
+import org.slf4j.MDC;
 
-import java.util.concurrent.*;
+import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -29,7 +36,17 @@ public interface ExecutorBuilder {
 						newThread.setDaemon(false);
 						return newThread;
 					}
-				}, new ThreadPoolExecutor.AbortPolicy()));
-	}
-
+				}, new ThreadPoolExecutor.AbortPolicy()){
+	@Override
+            public void execute(Runnable command) {
+                Map<String, String> context = MDC.getCopyOfContextMap();
+                super.execute(() -> {
+                    MDC.clear();
+                    if (context != null) {
+                        MDC.setContextMap(context);
+                    }
+                    command.run();
+                });
+            }
+        });}
 }

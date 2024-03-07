@@ -9,7 +9,6 @@
 package com.yomahub.liteflow.thread;
 
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.yomahub.liteflow.exception.ThreadExecutorServiceCreateException;
 import com.yomahub.liteflow.log.LFLog;
@@ -21,7 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 线程池工具类
@@ -168,9 +168,8 @@ public class ExecutorHelper {
 	}
 
 	public void clearExecutorServiceMap() {
-		if (MapUtil.isNotEmpty(executorServiceMap)) {
+
 			executorServiceMap.clear();
 		}
-	}
 
 }
